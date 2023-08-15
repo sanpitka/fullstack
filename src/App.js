@@ -6,66 +6,34 @@ const Button = (props) => (
   </button>
 )
 
-const StatisticLine = (props) => {
-  return (
-    <div>
-      {props.text} {props.value} {props.text2}
-    </div>
-  )
-}
-
-const Statistics = (props) => {
-  const all = props.good + props.neutral + props.bad
-  if (all === 0)
-  return (
-    <div>
-      No feedback given
-    </div>
-)
-  else return (
-    <table>
-        <tr>
-          <td><StatisticLine text="good"/></td>
-          <td><StatisticLine value={props.good} /></td>
-        </tr>
-        <tr>
-          <td><StatisticLine text="neutral"/></td>
-          <td><StatisticLine value={props.neutral} /></td>
-        </tr>
-        <tr>
-          <td><StatisticLine text="bad"/></td>
-          <td><StatisticLine value={props.bad} /></td>
-        </tr>
-        <tr>
-          <td><StatisticLine text="all"/></td>
-          <td><StatisticLine value={all} /></td>
-        </tr>
-        <tr>
-          <td><StatisticLine text="average"/></td>
-          <td><StatisticLine value={((props.good - props.bad)/all).toFixed(1)} /></td>
-        </tr>
-        <tr>
-          <td><StatisticLine text="positive"/></td>
-          <td><StatisticLine value={(props.good / all * 100).toFixed(1)} text2="%" /></td>
-        </tr>
-    </table>
-  )
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 const App = () => {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
+
+  const length = anecdotes.length
+   
+  const [selected, setSelected] = useState(0)
 
   return (
     <div>
-      <h1>Give feedback</h1>
-      <Button handleClick={() => setGood(good + 1)} text="good" />
-      <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
-      <Button handleClick={() => setBad(bad + 1)} text="bad" />
-      <h1>statistics</h1>
-      <Statistics good={good} neutral={neutral} bad={bad} />
-    </div> 
+      {anecdotes[selected]} <br></br>
+      <Button handleClick={() => setSelected(0, 9)} text="vote" />
+      <Button handleClick={() => setSelected(getRandomInt(0, length))} text="next anecdote" />
+    </div>
   )
 }
 
