@@ -12,6 +12,18 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+function getMostVoted(votes) {
+  var amount = 0
+  var largest = 0
+  for (let i = 0; i < votes.length; i++) {
+    if (votes[i] > amount) {
+       amount = votes[i]
+       largest = i
+    }
+  }
+  return largest
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -25,14 +37,25 @@ const App = () => {
   ]
 
   const length = anecdotes.length
-   
+  const points = new Array(length).fill(0)
+     
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(points)
+  const copy = [...votes]
+  copy[selected] += 1
+  const mostVoted = getMostVoted(votes)
+  
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]} <br></br>
-      <Button handleClick={() => setSelected(0, 9)} text="vote" />
+      has {votes[selected]} votes <br></br>
+      <Button handleClick={() => setVotes(copy)} text="vote" />
       <Button handleClick={() => setSelected(getRandomInt(0, length))} text="next anecdote" />
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[mostVoted]} <br></br>
+      votes {votes[mostVoted]}
     </div>
   )
 }
